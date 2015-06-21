@@ -5,35 +5,48 @@ import java.util.Map;
 import com.bibibiradio.scan.plugin.IInputData;
 
 public class XlBurpProxyInputData implements IInputData {
-
-	@Override
+	private String url;
+	private byte[] reqBody;
+	private Map<String,String> reqHeader;
+	private Map<String,String> resHeader;
+	private String method;
+	private byte[] resBody;
 	public String getUrl() {
-		// TODO Auto-generated method stub
-		return null;
+		return url;
 	}
-
-	@Override
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	public byte[] getReqBody() {
-		// TODO Auto-generated method stub
-		return null;
+		return reqBody;
 	}
-
-	@Override
+	public void setReqBody(byte[] reqBody) {
+		this.reqBody = reqBody;
+	}
 	public Map<String, String> getReqHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		return reqHeader;
 	}
-
-	@Override
+	public void setReqHeader(Map<String, String> reqHeader) {
+		this.reqHeader = reqHeader;
+	}
 	public Map<String, String> getResHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		return resHeader;
 	}
-
-	@Override
+	public void setResHeader(Map<String, String> resHeader) {
+		this.resHeader = resHeader;
+	}
+	public String getMethod() {
+		return method;
+	}
+	public void setMethod(String method) {
+		this.method = method;
+	}
 	public byte[] getResBody() {
-		// TODO Auto-generated method stub
-		return null;
+		return resBody;
 	}
-
+	public void setResBody(byte[] resBody) {
+		this.resBody = resBody;
+	}
+	
+	
 }

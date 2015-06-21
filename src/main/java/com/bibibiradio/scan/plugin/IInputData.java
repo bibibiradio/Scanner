@@ -4,6 +4,7 @@ import java.util.Map;
 
 public interface IInputData {
 	public String getUrl();
+	public String getMethod();
 	public byte[] getReqBody();
 	public Map<String,String> getReqHeader();
 	public Map<String,String> getResHeader();

@@ -7,4 +7,5 @@ public interface IVulnItem {
 	public String getDetail();
 	public String getPos();
 	public byte[] getHashcode();
+	public String getType();
 }
