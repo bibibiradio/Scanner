@@ -1,4 +1,4 @@
-package com.bibibiradio.scan.plugin;
+package com.bibibiradio.input.plugin;
 
 import java.util.Map;
 

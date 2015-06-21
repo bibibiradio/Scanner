@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import com.bibibiradio.httpsender.HttpSender;
 import com.bibibiradio.httpsender.HttpSenderImplV1;
 import com.bibibiradio.httpsender.ResponseData;
-import com.bibibiradio.scan.plugin.IInputData;
+import com.bibibiradio.input.plugin.IInputData;
 import com.bibibiradio.scan.plugin.IScanPlugin;
 import com.bibibiradio.scan.plugin.IVulnItem;
 import com.bibibiradio.scan.plugin.SimpleVulnItem;

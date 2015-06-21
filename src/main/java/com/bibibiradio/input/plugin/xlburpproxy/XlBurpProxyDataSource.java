@@ -1,12 +1,14 @@
 package com.bibibiradio.input.plugin.xlburpproxy;
 
+import java.util.Map;
+
+import com.bibibiradio.input.plugin.IInputData;
 import com.bibibiradio.input.plugin.IInputDataSource;
-import com.bibibiradio.scan.plugin.IInputData;
 
 public class XlBurpProxyDataSource implements IInputDataSource {
 
 	@Override
-	public boolean init(String config) {
+	public boolean init(Map<String,Object> inputPluginConfig) {
 		// TODO Auto-generated method stub
 		return false;
 	}

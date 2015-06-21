@@ -1,10 +1,10 @@
-package com.bibibiradio.input.plugin.xlburpproxy;
+package com.bibibiradio.input.plugin.cmdline;
 
 import java.util.Map;
 
 import com.bibibiradio.input.plugin.IInputData;
 
-public class XlBurpProxyInputData implements IInputData {
+public class CmdLineInputData implements IInputData {
 	private String url;
 	private byte[] reqBody;
 	private Map<String,String> reqHeader;
@@ -47,6 +47,4 @@ public class XlBurpProxyInputData implements IInputData {
 	public void setResBody(byte[] resBody) {
 		this.resBody = resBody;
 	}
-	
-	
 }
