@@ -55,7 +55,6 @@ public class SensitiveScanPlugin implements IScanPlugin {
 		findPatternByRegx(vulnItems,emailPattern,resBodyStr,"emailNum",inputData);
 		
 		if(vulnItems.size()<=0){
-			System.out.println("nnnnnnn");
 			return null;
 		}
 

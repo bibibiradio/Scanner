@@ -33,7 +33,7 @@ public class SensitiveScanPluginTest {
 		IVulnItem[] vulnItems = ssp.scan(ipd);
 		
 		for(int i=0;i<vulnItems.length;i++){
-			System.out.println(vulnItems[i].getDetail());
+			System.out.println(vulnItems[i].getPos()+" "+vulnItems[i].getDetail());
 		}
 		
 		assertTrue(vulnItems!=null);

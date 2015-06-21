@@ -55,7 +55,7 @@
 		        </descriptorRefs>
             <archive>
               <manifest>
-                <!--<mainClass>com.bibibiradio.burp.httpproxy.BurpHttpProxy</mainClass>-->
+                <mainClass>com.bibibiradio.scancore.ScanManager</mainClass>
                 <addClasspath>true</addClasspath>
               </manifest>
               <!--<manifestSections>
