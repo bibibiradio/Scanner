@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig 
+    PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+    <!--<settings cacheModelsEnabled="true" enhancementEnabled="true"
+        lazyLoadingEnabled="true" errorTracingEnabled="true" maxRequests="32"
+        maxSessions="10" maxTransactions="5" useStatementNamespaces="false" />-->
+
+    <transactionManager type="JDBC" commitRequired="false">
+        <dataSource type="SIMPLE">
+            <!-- JDBC连接需要的配置 -->
+            <property name="JDBC.Driver" value="com.mysql.jdbc.Driver" />
+            <property name="JDBC.ConnectionURL"
+                value="jdbc:mysql://127.0.0.1/scan" />
+            <property name="JDBC.Username" value="root" />
+            <property name="JDBC.Password" value="135" />
+        </dataSource>
+    </transactionManager>
+
+    <!-- 映射文件 -->
+    <sqlMap resource="com/bibibiradio/input/plugin/database/sqlmapscanner.xml" />
+</sqlMapConfig>

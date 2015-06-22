@@ -1,0 +1,18 @@
+<config>
+    <inputPlugin>
+        <name>cmdline</name>
+        <config></config>
+    </inputPlugin>
+    <outputPlugin>
+        <name>console</name>
+        <config></config>
+    </outputPlugin>
+    <scanPlugins>
+        <scanPlugin>
+            <name>sensitive</name>
+        </scanPlugin>
+        <scanPlugin>
+            <name>xss</name>
+        </scanPlugin>
+    </scanPlugins>
+</config>

@@ -78,6 +78,7 @@ public class SensitiveScanPlugin implements IScanPlugin {
 			vulnItem.setDetail(match.group(0));
 			vulnItem.setHashcode("123".getBytes());
 			vulnItem.setPos(String.valueOf(match.start(0)));
+			vulnItem.setInputData(inputData);
 			vulnItems.add(vulnItem);
 		}
 	}

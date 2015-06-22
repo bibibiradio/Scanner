@@ -1,0 +1,18 @@
+<config>
+    <inputPlugin>
+        <name>database</name>
+        <config>testdata/SqlMapConfig.xml</config>
+    </inputPlugin>
+    <outputPlugin>
+        <name>console</name>
+        <config></config>
+    </outputPlugin>
+    <scanPlugins>
+        <scanPlugin>
+            <name>sensitive</name>
+        </scanPlugin>
+        <scanPlugin>
+            <name>xss</name>
+        </scanPlugin>
+    </scanPlugins>
+</config>

@@ -25,5 +25,13 @@ public class ScanManagerTest {
 		assertTrue(true);
 		//fail("Not yet implemented");
 	}
+	
+	@Test
+	public void testRun2() {
+		String[] args = new String[]{"testdata/testconfig2.xml","GET","http://www.test.checkhtml.com/id_card_sensitive"};
+		ScanManager.run(args);
+		assertTrue(true);
+		//fail("Not yet implemented");
+	}
 
 }

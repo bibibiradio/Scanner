@@ -8,6 +8,7 @@ import java.util.Map;
 import com.bibibiradio.input.plugin.IInputData;
 import com.bibibiradio.input.plugin.IInputDataSource;
 import com.bibibiradio.input.plugin.cmdline.CmdLineDataSource;
+import com.bibibiradio.input.plugin.database.MysqlDataSource;
 import com.bibibiradio.input.plugin.xlburpproxy.XlBurpProxyInputData;
 import com.bibibiradio.scan.plugin.IScanPlugin;
 import com.bibibiradio.scan.plugin.IVulnItem;
@@ -41,9 +42,9 @@ public class ScanManager {
 			return;
 		}
 		
-		for(IVulnItem vulnItem:vulnItems){
-			System.out.println(vulnItem.getType()+" "+vulnItem.getPos()+" "+vulnItem.getDetail());
-		}
+//		for(IVulnItem vulnItem:vulnItems){
+//			System.out.println(vulnItem.getType()+" "+vulnItem.getPos()+" "+vulnItem.getDetail()+" "+vulnItem.getUrl());
+//		}
 		
 		if(vulnItems.size() == 0){
 			System.out.println("no vuln");
@@ -58,6 +59,9 @@ public class ScanManager {
 		}
 		if(inputPlugin.get("name").equals("cmdline")){
 			inputDataSource = new CmdLineDataSource();
+			inputDataSource.init(config);
+		}else if(inputPlugin.get("name").equals("database")){
+			inputDataSource = new MysqlDataSource();
 			inputDataSource.init(config);
 		}
 		return true;
@@ -94,9 +98,11 @@ public class ScanManager {
 				break;
 			}
 			
+			//System.out.println("有"+inputDatas.length+"扫描url");
 			for(int i=0;i<inputDatas.length;i++){
 				IInputData inputData = inputDatas[i];
 				
+				//System.out.println("正在扫描第"+i+"个扫描url "+inputData.getUrl());
 				for(IScanPlugin scanPlugin:scanPlugins){
 					IVulnItem[] scanVulnItems = scanPlugin.scan(inputData);
 					if(scanVulnItems == null){
@@ -104,6 +110,7 @@ public class ScanManager {
 					}
 					
 					for(int j=0;j<scanVulnItems.length;j++){
+						System.out.println(scanVulnItems[j].getType()+" "+scanVulnItems[j].getPos()+" "+scanVulnItems[j].getDetail()+" "+scanVulnItems[j].getUrl());
 						vulnItems.add(scanVulnItems[j]);
 					}
 				}

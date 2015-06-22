@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE sqlMap PUBLIC
+    "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMap namespace="scanner">
+    <!-- 设置本映射中的别名: 方便使用 -->
+    <typeAlias alias="MysqlScanItem" type="com.bibibiradio.input.plugin.database.MysqlScanItem" />
+    <typeAlias alias="string" type="java.lang.String" />
+    <typeAlias alias="integer" type="java.lang.Integer" />
+    
+    <!-- 增删查改的Statement配置 -->
+    <!--
+    <select id="getAllUsers" resultClass="user"><![CDATA[
+        SELECT id, name FROM user ORDER BY id
+    ]]></select>
+    -->
+    
+    <select id="getScanItemByHash" resultClass="MysqlScanItem" parameterClass="MysqlScanItem"><![CDATA[
+        SELECT 
+        item_id,url,method,request_content_type,response_status_code,insert_scan_time,item_hash,
+        request_orig,response_orig,scan_time,is_scan
+        FROM scan_items 
+        WHERE item_hash=#itemHash#
+    ]]></select>
+    
+    <select id="getScanItems" resultClass="MysqlScanItem" parameterClass="MysqlScanItem"><![CDATA[
+        SELECT 
+        item_id as itemId,url,method,request_content_type as requestContentType,response_status_code as responseStatusCode,insert_scan_time as insertScanTime,item_hash as itemHash,
+        request_orig as requestOrig,response_orig as responseOrig,scan_time as scanTime,is_scan as isScan
+        FROM scan_items 
+        WHERE item_id > #itemId# limit 20
+    ]]></select>
+    
+    <select id="getMaxItemId" resultClass="MysqlScanItem" parameterClass="MysqlScanItem"><![CDATA[
+        SELECT 
+        item_id as itemId,url,method,request_content_type as requestContentType,response_status_code as responseStatusCode,insert_scan_time as insertScanTime,item_hash as itemHash,
+        request_orig as requestOrig,response_orig as responseOrig,scan_time as scanTime,is_scan as isScan
+        FROM scan_items 
+        order by item_id desc limit 1
+    ]]></select>
+    
+    <!-- 
+    <update id="updateUser" parameterClass="user"><![CDATA[
+        UPDATE user SET name=#name# WHERE id=#id#
+    ]]></update>
+      -->
+    <insert id="insertScanItem" parameterClass="MysqlScanItem"><![CDATA[
+        INSERT INTO scan_items 
+        (url,method,request_content_type,response_status_code,insert_scan_time,item_hash,request_orig,response_orig) 
+        VALUES 
+        (#url#,#method#,#requestContentType#,#responseStatusCode#,#insertScanTime#,#itemHash#,#requestOrig#,#responseOrig#)
+    ]]></insert>
+    
+    <delete id="deleteScanItems"><![CDATA[
+        DELETE FROM scan_items WHERE 1=1
+    ]]></delete>
+    
+</sqlMap>

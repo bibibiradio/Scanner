@@ -37,6 +37,7 @@ public class ConfigReader {
 		}
 		for(Element inputPlugin:inputPlugins){
 			inputPluginConfig.put("name", inputPlugin.getElementsByTag("name").get(0).text());
+			inputPluginConfig.put("config", inputPlugin.getElementsByTag("config").get(0).text());
 		}
 		config.put("inputPlugin", inputPluginConfig);
 		
@@ -47,6 +48,7 @@ public class ConfigReader {
 		}
 		for(Element outputPlugin:outputPlugins){
 			outputPluginConfig.put("name",outputPlugin.getElementsByTag("name").get(0).text());
+			outputPluginConfig.put("config",outputPlugin.getElementsByTag("config").get(0).text());
 		}
 		config.put("outputPlugin", outputPluginConfig);
 		

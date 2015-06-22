@@ -1,5 +1,7 @@
 package com.bibibiradio.scan.plugin;
 
+import com.bibibiradio.input.plugin.IInputData;
+
 public class SimpleVulnItem implements IVulnItem {
 	private String url;
 	private String method;
@@ -8,7 +10,16 @@ public class SimpleVulnItem implements IVulnItem {
 	private String pos;
 	private byte[] hashcode;
 	private String type;
+	private IInputData inputData;
 	
+	
+	
+	public IInputData getInputData() {
+		return inputData;
+	}
+	public void setInputData(IInputData inputData) {
+		this.inputData = inputData;
+	}
 	public String getType() {
 		return type;
 	}

@@ -35,6 +35,19 @@ public class ConfigReaderTest {
 				assertTrue(true);
 			}
 		}
+		
+		Map<String,Object> config2 = ConfigReader.formatConfig("testdata/testconfig2.xml");
+		assertTrue(((HashMap<String,String>)config2.get("inputPlugin")).get("name").equals("database"));
+		assertTrue(((HashMap<String,String>)config2.get("inputPlugin")).get("config").equals("testdata/SqlMapConfig.xml"));
+		assertTrue(((HashMap<String,String>)config2.get("outputPlugin")).get("name").equals("console"));
+		
+		@SuppressWarnings("unchecked")
+		List<HashMap<String,String>> scanPluginConfigs2 = (List<HashMap<String, String>>) config2.get("scanPlugins");
+		for(HashMap<String,String> scanPluginConfig:scanPluginConfigs2){
+			if(scanPluginConfig.get("name").equals("xss") || scanPluginConfig.get("name").equals("sensitive")){
+				assertTrue(true);
+			}
+		}
 	}
 
 }

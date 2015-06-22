@@ -9,9 +9,9 @@ public class CmdLineDataSource implements IInputDataSource {
 	private CmdLineInputData cmdLineInputData = null;
 	private boolean isOver = false;
 	@Override
-	public boolean init(Map<String, Object> inputPluginConfig) {
+	public boolean init(Map<String, Object> config) {
 		// TODO Auto-generated method stub
-		String[] args = (String[]) inputPluginConfig.get("cmdLine");
+		String[] args = (String[]) config.get("cmdLine");
 		cmdLineInputData = new CmdLineInputData();
 		cmdLineInputData.setUrl(args[2]);
 		cmdLineInputData.setMethod(args[1]);

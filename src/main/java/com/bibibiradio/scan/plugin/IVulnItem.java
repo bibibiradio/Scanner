@@ -1,5 +1,7 @@
 package com.bibibiradio.scan.plugin;
 
+import com.bibibiradio.input.plugin.IInputData;
+
 public interface IVulnItem {
 	public String getUrl();
 	public String getMethod();
@@ -8,4 +10,5 @@ public interface IVulnItem {
 	public String getPos();
 	public byte[] getHashcode();
 	public String getType();
+	public IInputData getInputData();
 }
