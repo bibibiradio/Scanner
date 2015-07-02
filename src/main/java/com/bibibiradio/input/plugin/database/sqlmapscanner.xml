@@ -30,7 +30,7 @@
         item_id as itemId,url,method,request_content_type as requestContentType,response_status_code as responseStatusCode,insert_scan_time as insertScanTime,item_hash as itemHash,
         request_orig as requestOrig,response_orig as responseOrig,scan_time as scanTime,is_scan as isScan
         FROM scan_items 
-        WHERE item_id > #itemId# limit 20
+        WHERE item_id > #itemId# and is_scan=0 limit 20
     ]]></select>
     
     <select id="getMaxItemId" resultClass="MysqlScanItem" parameterClass="MysqlScanItem"><![CDATA[
@@ -53,6 +53,11 @@
         (#url#,#method#,#requestContentType#,#responseStatusCode#,#insertScanTime#,#itemHash#,#requestOrig#,#responseOrig#)
     ]]></insert>
     
+    <update id="updateIsScan" parameterClass="MysqlScanItem">
+        <![CDATA[
+        	update scan_items set is_scan=1 where item_id=#itemId#
+        ]]>
+    </update>
     <delete id="deleteScanItems"><![CDATA[
         DELETE FROM scan_items WHERE 1=1
     ]]></delete>

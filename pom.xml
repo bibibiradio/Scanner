@@ -34,6 +34,16 @@
 	    <artifactId>mysql-connector-java</artifactId>
 	    <version>5.1.25</version>
     </dependency>
+    <dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.17</version>
+	</dependency>
+	<dependency>
+		<groupId>com.bibibiradio.commoncache</groupId>
+		<artifactId>commoncache</artifactId>
+		<version>1.1</version>
+	</dependency>
   </dependencies>
   <build>
   	<resources>  
@@ -108,7 +118,7 @@
 		        <includes>  
 		            <include>**/*Test.java</include>  
 		        </includes>
-		        <encoding>gbk</encoding>
+		        <encoding>UTF-8</encoding>
 		        <excludes>
 		        	<exclude>**/TravelHandlerTest.java</exclude> 
 		            <!--  <exclude>**/*ServiceTest.java</exclude>  

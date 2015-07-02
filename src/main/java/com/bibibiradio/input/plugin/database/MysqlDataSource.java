@@ -51,39 +51,18 @@ public class MysqlDataSource implements IInputDataSource {
 	public IInputData[] getFromSource() {
 		// TODO Auto-generated method stub
 		List<MysqlScanItem> mysqlScanItems = null;
-		MysqlScanItem resultItem = null;
-		MysqlScanItem selectItem = new MysqlScanItem();
-		selectItem.setItemId(0);
 		
 		if(maxItemId == -1){
-			try {
-				startTransaction();
-				resultItem = (MysqlScanItem) smc.queryForObject("getMaxItemId", selectItem);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally{
-				endTransaction();
-			}
-			maxItemId = resultItem.getItemId();
+			maxItemId = getMaxItemId();
 		}
 		
 		if(currentItemId >= maxItemId){
 			return null;
 		}
 		
-		selectItem.setItemId(currentItemId);
-		try {
-			startTransaction();
-			mysqlScanItems = smc.queryForList("getScanItems", selectItem);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally{
-			endTransaction();
-		}
+		mysqlScanItems = getScanItems(currentItemId);
 		
-		if(mysqlScanItems == null || mysqlScanItems.size()<0){
+		if(mysqlScanItems == null || mysqlScanItems.size()<=0){
 			return null;
 		}
 		
@@ -101,7 +80,7 @@ public class MysqlDataSource implements IInputDataSource {
 			//inputData.setReqHeader(reqHeader);
 			//inputData.setResHeader(resHeader);
 			inputData.setResBody(mysqlScanItem.getResponseOrig());
-			
+			setIsScan(mysqlScanItem.getItemId());
 			mysqlInputDatas[i] = inputData;
 			i++;
 			if(i == mysqlScanItems.size()){
@@ -111,6 +90,54 @@ public class MysqlDataSource implements IInputDataSource {
 		
 		
 		return mysqlInputDatas;
+	}
+	
+	private long getMaxItemId(){
+		MysqlScanItem resultItem = null;
+		MysqlScanItem selectItem = new MysqlScanItem();
+		selectItem.setItemId(0);
+		try {
+			startTransaction();
+			resultItem = (MysqlScanItem) smc.queryForObject("getMaxItemId", selectItem);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			endTransaction();
+		}
+		return resultItem.getItemId();
+	}
+	
+	private List<MysqlScanItem> getScanItems(long currentItemId){
+		MysqlScanItem selectItem = new MysqlScanItem();
+		selectItem.setItemId(currentItemId);
+		try {
+			startTransaction();
+			 return smc.queryForList("getScanItems", selectItem);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally{
+			endTransaction();
+		}
+	}
+	
+	private boolean setIsScan(long itemId){
+		MysqlScanItem selectItem = new MysqlScanItem();
+		selectItem.setItemId(itemId);
+		try {
+			startTransaction();
+			 smc.update("updateIsScan", selectItem);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		} finally{
+			endTransaction();
+		}
+		
+		return true;
 	}
 	
 	private void endTransaction(){

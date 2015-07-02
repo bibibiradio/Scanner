@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.bibibiradio.input.plugin.IInputData;
 import com.bibibiradio.input.plugin.IInputDataSource;
 import com.bibibiradio.input.plugin.cmdline.CmdLineDataSource;
@@ -15,6 +17,8 @@ import com.bibibiradio.scan.plugin.IVulnItem;
 import com.bibibiradio.scan.plugin.sensitive.SensitiveScanPlugin;
 
 public class ScanManager {
+	static private Logger logger = Logger.getLogger(ScanManager.class);
+	
 	static private IInputDataSource inputDataSource= null;
 	static private ArrayList<IScanPlugin> scanPlugins = null;
 	
@@ -47,7 +51,8 @@ public class ScanManager {
 //		}
 		
 		if(vulnItems.size() == 0){
-			System.out.println("no vuln");
+			//System.out.println("no vuln");
+			logger.info("no vuln");
 		}
 	}
 	
@@ -98,11 +103,11 @@ public class ScanManager {
 				break;
 			}
 			
-			//System.out.println("ÓÐ"+inputDatas.length+"É¨Ãèurl");
+			//System.out.println("ï¿½ï¿½"+inputDatas.length+"É¨ï¿½ï¿½url");
 			for(int i=0;i<inputDatas.length;i++){
 				IInputData inputData = inputDatas[i];
 				
-				//System.out.println("ÕýÔÚÉ¨ÃèµÚ"+i+"¸öÉ¨Ãèurl "+inputData.getUrl());
+				//System.out.println("ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½ï¿½"+i+"ï¿½ï¿½É¨ï¿½ï¿½url "+inputData.getUrl());
 				for(IScanPlugin scanPlugin:scanPlugins){
 					IVulnItem[] scanVulnItems = scanPlugin.scan(inputData);
 					if(scanVulnItems == null){
@@ -110,7 +115,8 @@ public class ScanManager {
 					}
 					
 					for(int j=0;j<scanVulnItems.length;j++){
-						System.out.println(scanVulnItems[j].getType()+" "+scanVulnItems[j].getPos()+" "+scanVulnItems[j].getDetail()+" "+scanVulnItems[j].getUrl());
+						//System.out.println("println "+scanVulnItems[j].getType()+" "+scanVulnItems[j].getPos()+" "+scanVulnItems[j].getDetail()+" "+scanVulnItems[j].getUrl());
+						logger.info(scanVulnItems[j].getType()+" "+scanVulnItems[j].getPos()+" "+scanVulnItems[j].getDetail()+" "+scanVulnItems[j].getUrl());
 						vulnItems.add(scanVulnItems[j]);
 					}
 				}
