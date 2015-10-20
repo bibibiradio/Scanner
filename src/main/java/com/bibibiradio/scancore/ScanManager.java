@@ -14,6 +14,7 @@ import com.bibibiradio.input.plugin.database.MysqlDataSource;
 import com.bibibiradio.input.plugin.xlburpproxy.XlBurpProxyInputData;
 import com.bibibiradio.scan.plugin.IScanPlugin;
 import com.bibibiradio.scan.plugin.IVulnItem;
+import com.bibibiradio.scan.plugin.cc.CcScanPlugin;
 import com.bibibiradio.scan.plugin.sensitive.SensitiveScanPlugin;
 
 public class ScanManager {
@@ -85,6 +86,11 @@ public class ScanManager {
 				sensitiveScanPlugin.open("");
 				
 				scanPlugins.add(sensitiveScanPlugin);
+			}else if(scanPluginConfig.get("name").equals("cc")){
+				IScanPlugin ccScanPlugin = new CcScanPlugin();
+				ccScanPlugin.open("");
+				
+				scanPlugins.add(ccScanPlugin);
 			}
 		}
 		return true;
