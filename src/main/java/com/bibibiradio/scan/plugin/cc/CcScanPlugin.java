@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.bibibiradio.commoncache.CacheWithTimeLimit;
 import com.bibibiradio.httpsender.HttpSender;
 import com.bibibiradio.httpsender.HttpSenderImplV1;
@@ -21,6 +23,7 @@ public class CcScanPlugin implements IScanPlugin {
 	static CacheWithTimeLimit hostCache = null;
 	static private long brand = 2211000;
 	static private long vulnTimeLimit = 1600;
+	static private Logger logger = Logger.getLogger(CcScanPlugin.class);
 	@Override
 	public boolean open(String config) {
 		// TODO Auto-generated method stub
@@ -125,9 +128,9 @@ public class CcScanPlugin implements IScanPlugin {
 			pingInputBytes = new byte[2048];
 			pingProcess.waitFor();
 			pingInput.read(pingInputBytes);
-		} catch (Exception e) {
+		} catch (Exception ex) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    logger.error("error message",ex);
 			return -1;
 		}
 		pingInputString = new String(pingInputBytes);

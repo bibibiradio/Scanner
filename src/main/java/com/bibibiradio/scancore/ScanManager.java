@@ -103,6 +103,7 @@ public class ScanManager {
 		IInputData[] inputDatas = null;
 		ArrayList<IVulnItem> vulnItems = new ArrayList<IVulnItem>();
 		
+		
 		while(true){
 			inputDatas = inputDataSource.getFromSource();
 			if(inputDatas == null){
@@ -115,7 +116,14 @@ public class ScanManager {
 				
 				//System.out.println("����ɨ���"+i+"��ɨ��url "+inputData.getUrl());
 				for(IScanPlugin scanPlugin:scanPlugins){
-					IVulnItem[] scanVulnItems = scanPlugin.scan(inputData);
+				    IVulnItem[] scanVulnItems = null;
+				    
+				    try{
+				        scanVulnItems = scanPlugin.scan(inputData);
+				    }catch(Exception ex){
+				        logger.error("error message",ex);
+				    }
+				    
 					if(scanVulnItems == null){
 						continue;
 					}
@@ -128,6 +136,7 @@ public class ScanManager {
 				}
 			}
 		}
+		
 		
 		if(vulnItems == null || vulnItems.size() < 0){
 			return null;
