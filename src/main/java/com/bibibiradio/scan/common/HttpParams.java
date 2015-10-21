@@ -78,6 +78,10 @@ public class HttpParams {
         for(String item : items){
             String[] keyValue = item.split(keyValuesConnector);
             
+            if(keyValue.length < 2){
+            	return null;
+            }
+            
             String decoderValue = null;
             if(valueDecoder.equals("URL")){
                 decoderValue = URLDecoder.decode(keyValue[1], charDecoder);
