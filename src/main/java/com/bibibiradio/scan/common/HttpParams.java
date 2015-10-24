@@ -41,6 +41,16 @@ public class HttpParams {
         return true;
     }
     
+    public boolean synFromKeyValues() throws Exception{
+        params = getParamsFromKeyValues(keyValues);
+        return true;
+    }
+    
+    public boolean synFromParams() throws Exception{
+        keyValues = getKeyValuesFromParams(params);
+        return true;
+    }
+    
     private String getParamsFromKeyValues(Map<String,String> keyValues) throws Exception{
         Iterator<Entry<String, String>> iter = keyValues.entrySet().iterator();
         StringBuilder strBuilder = new StringBuilder("");
@@ -68,6 +78,10 @@ public class HttpParams {
     }
     
     private Map<String,String> getKeyValuesFromParams(String params) throws Exception{
+        if(params == null){
+            return null;
+        }
+        
         HashMap<String,String> result = new HashMap<String,String>();
         
         String[] items = params.split(itemConnector);

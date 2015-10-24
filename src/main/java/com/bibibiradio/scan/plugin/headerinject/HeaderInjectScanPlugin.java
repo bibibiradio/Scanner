@@ -16,8 +16,10 @@ import com.bibibiradio.httpsender.HttpSenderImplV1;
 import com.bibibiradio.httpsender.ResponseData;
 import com.bibibiradio.input.plugin.IInputData;
 import com.bibibiradio.scan.common.HttpParams;
+import com.bibibiradio.scan.common.HttpReqImpl;
 import com.bibibiradio.scan.plugin.IScanPlugin;
 import com.bibibiradio.scan.plugin.IVulnItem;
+import com.bibibiradio.scan.plugin.SimpleVulnItem;
 
 public class HeaderInjectScanPlugin implements IScanPlugin {
 	static private HttpSender httpSender;
@@ -59,21 +61,85 @@ public class HeaderInjectScanPlugin implements IScanPlugin {
 			intMethod = 2;
 		}
 		
+		HttpReqImpl httpReqImpl = new HttpReqImpl();
+        
+		
 		try {
-			URL uurl = new URL(inputData.getUrl());
-			String query = uurl.getQuery();
-			HttpParams urlHttpparams = new HttpParams();
-			HttpParams postHttpParams = new HttpParams();
-			urlHttpparams.setParams(query);
-			urlHttpparams.syn();
-			Map<String,String> urlParams = urlHttpparams.getKeyValues();
-			Map<String,String> postParams = null;
-			if(inputData.getReqBody() != null){
-				String postData = new String(inputData.getReqBody(),"UTF-8");
-				postHttpParams.setParams(postData);
-				postHttpParams.syn();
-				postParams = postHttpParams.getKeyValues();
-			}
+		    httpReqImpl.setUrlSyn(inputData.getUrl());
+	        httpReqImpl.setReqHeaderSyn(inputData.getReqHeader());
+	        httpReqImpl.setPostBodySyn(new String(inputData.getReqBody(),"UTF-8"));
+	        
+	        Iterator<Entry<String, String>> queryParams = httpReqImpl.getQueryIter();
+	        if(queryParams != null){
+	            while(queryParams.hasNext()){
+	                Entry<String,String> queryItem = queryParams.next();
+	                
+	                String key = queryItem.getKey();
+	                String value = queryItem.getValue();
+	                
+	                HttpReqImpl cloneHttpReqImpl = httpReqImpl.deepClone();
+	                
+	                for(String aPayload : payload){
+	                    cloneHttpReqImpl.setQueryItemSyn(key, value);
+	                    ResponseData resData = httpSender.send(cloneHttpReqImpl.getUrl(), intMethod, cloneHttpReqImpl.getReqHeader(), cloneHttpReqImpl.getPostBody().getBytes());
+	                    if(resData == null){
+	                        continue;
+	                    }
+	                    
+	                    if(check(resData)){
+	                        SimpleVulnItem vulnItem = new SimpleVulnItem();
+	                        vulnItem.setType("headerInject");
+	                        vulnItem.setUrl(inputData.getUrl());
+	                        vulnItem.setMethod(inputData.getMethod());
+	                        vulnItem.setPayload(aPayload);
+	                        vulnItem.setDetail("urlQuery:"+key);
+	                        vulnItem.setHashcode("123".getBytes());
+	                        vulnItem.setPos(key);
+	                        vulnItem.setInputData(inputData);
+	                        vulnItems.add(vulnItem);
+	                    }
+	                }
+	            }
+	        }
+	        
+	        Iterator<Entry<String, String>> postParams = httpReqImpl.getPostIter();
+            if(postParams != null){
+                while(postParams.hasNext()){
+                    Entry<String,String> postItem = postParams.next();
+                    
+                    String key = postItem.getKey();
+                    String value = postItem.getValue();
+                    
+                    HttpReqImpl cloneHttpReqImpl = httpReqImpl.deepClone();
+                    
+                    for(String aPayload : payload){
+                        cloneHttpReqImpl.setPostItemSyn(key, value);
+                        ResponseData resData = httpSender.send(cloneHttpReqImpl.getUrl(), intMethod, cloneHttpReqImpl.getReqHeader(), cloneHttpReqImpl.getPostBody().getBytes());
+                        if(resData == null){
+                            continue;
+                        }
+                        
+                        if(check(resData)){
+                            SimpleVulnItem vulnItem = new SimpleVulnItem();
+                            vulnItem.setType("headerInject");
+                            vulnItem.setUrl(inputData.getUrl());
+                            vulnItem.setMethod(inputData.getMethod());
+                            vulnItem.setPayload(aPayload);
+                            vulnItem.setDetail("postQuery:"+key);
+                            vulnItem.setHashcode("123".getBytes());
+                            vulnItem.setPos(key);
+                            vulnItem.setInputData(inputData);
+                            vulnItems.add(vulnItem);
+                        }
+                    }
+                }
+            }
+            
+            if(vulnItems.size()<=0){
+                return null;
+            }
+
+            return vulnItems.toArray(new SimpleVulnItem[0]);
 		} catch (Exception ex) {
 			// TODO Auto-generated catch block
 			logger.error("error message",ex);
@@ -81,39 +147,19 @@ public class HeaderInjectScanPlugin implements IScanPlugin {
 		return null;
 	}
 	
-//	private boolean check(URL uurl,Map<String,String> urlParams,Map<String,String> postParams,Map<String,String> header,String method) throws Exception{
-//		int intMethod = -1;
-//		
-//		HttpParams urlHttpparams = new HttpParams();
-//		HttpParams postHttpParams = new HttpParams();
-//		
-//		if("GET".equalsIgnoreCase(method)){
-//			intMethod = 0;
-//		}else if("POST".equalsIgnoreCase(method)){
-//			intMethod = 1;
-//		}else if("PUT".equalsIgnoreCase(method)){
-//			intMethod = 2;
-//		}
-//		
-//		if(postParams != null){
-//			Map<String,String> clonePostParams = new HashMap<String,String>();
-//			clonePostParams.putAll(postParams);
-//			Iterator<Entry<String, String>> iter = postParams.entrySet().iterator();
-//			while(iter.hasNext()){
-//				Entry<String, String> entry = iter.next();
-//				String oldValue = clonePostParams.put(entry.getKey(), payload[0]);
-//				postHttpParams.setKeyValues(clonePostParams);
-//				postHttpParams.syn();
-//				String postData = postHttpParams.getParams();
-//				ResponseData res = httpSender.send(uurl.toString(), intMethod, header, postData.getBytes());
-//				if(res == null){
-//					continue;
-//				}
-//				
-//				
-//			}
-//		}
-//	}
+	private boolean check(ResponseData resData){
+	    String token = resData.getResponseHeader().get("TEST");
+        if(token == null){
+            return false;
+        }
+        
+        if(token.equals("abcdefg")){
+            return true;
+        }
+        
+        return false;
+	}
+	
 	@Override
 	public void close() {
 		// TODO Auto-generated method stub

@@ -15,6 +15,7 @@ import com.bibibiradio.input.plugin.xlburpproxy.XlBurpProxyInputData;
 import com.bibibiradio.scan.plugin.IScanPlugin;
 import com.bibibiradio.scan.plugin.IVulnItem;
 import com.bibibiradio.scan.plugin.cc.CcScanPlugin;
+import com.bibibiradio.scan.plugin.headerinject.HeaderInjectScanPlugin;
 import com.bibibiradio.scan.plugin.sensitive.SensitiveScanPlugin;
 
 public class ScanManager {
@@ -91,7 +92,12 @@ public class ScanManager {
 				ccScanPlugin.open("");
 				
 				scanPlugins.add(ccScanPlugin);
-			}
+			}else if(scanPluginConfig.get("name").equals("headerInject")){
+                IScanPlugin headerInjectScanPlugin = new HeaderInjectScanPlugin();
+                headerInjectScanPlugin.open("");
+                
+                scanPlugins.add(headerInjectScanPlugin);
+            }
 		}
 		return true;
 	}

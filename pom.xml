@@ -44,7 +44,27 @@
 		<artifactId>commoncache</artifactId>
 		<version>1.2</version>
 	</dependency>
+    <!--<dependency>
+        <groupId>net.sf.qtjambi</groupId>
+        <artifactId>qtjambi</artifactId>
+        <version>4.6.3</version>
+    </dependency>-->
   </dependencies>
+  
+  <!--<repositories>
+    <repository>
+        <id>qtjambi</id>
+        <name>qtjambi</name>
+        <url>http://qtjambi.sourceforge.net/maven2/</url>
+        <releases>
+            <checksumPolicy>ignore</checksumPolicy>
+        </releases>
+        <snapshots>
+            <checksumPolicy>ignore</checksumPolicy>
+        </snapshots>
+    </repository>
+  </repositories>-->
+  
   <build>
   	<resources>  
             <resource>  
