@@ -42,6 +42,7 @@ public class HeaderInjectScanPlugin implements IScanPlugin {
 			httpSender.setSendFreq(1500);
 			httpSender.setTimeout(10000);
 			httpSender.setSoTimeout(20000);
+			httpSender.setHttpProxy("127.0.0.1", 8080);
 			httpSender.start();
 		}
 		return true;
@@ -67,7 +68,9 @@ public class HeaderInjectScanPlugin implements IScanPlugin {
 		try {
 		    httpReqImpl.setUrlSyn(inputData.getUrl());
 	        httpReqImpl.setReqHeaderSyn(inputData.getReqHeader());
-	        httpReqImpl.setPostBodySyn(new String(inputData.getReqBody(),"UTF-8"));
+	        if(inputData.getReqBody() != null){
+	        	httpReqImpl.setPostBodySyn(new String(inputData.getReqBody(),"UTF-8"));
+	        }
 	        
 	        Iterator<Entry<String, String>> queryParams = httpReqImpl.getQueryIter();
 	        if(queryParams != null){
@@ -80,8 +83,13 @@ public class HeaderInjectScanPlugin implements IScanPlugin {
 	                HttpReqImpl cloneHttpReqImpl = httpReqImpl.deepClone();
 	                
 	                for(String aPayload : payload){
-	                    cloneHttpReqImpl.setQueryItemSyn(key, value);
-	                    ResponseData resData = httpSender.send(cloneHttpReqImpl.getUrl(), intMethod, cloneHttpReqImpl.getReqHeader(), cloneHttpReqImpl.getPostBody().getBytes());
+	                    cloneHttpReqImpl.setQueryItemSyn(key, aPayload);
+	                    
+	                    byte[] postBody = null;
+	                    if(cloneHttpReqImpl.getPostBody() != null){
+	                    	postBody = cloneHttpReqImpl.getPostBody().getBytes();
+	                    }
+	                    ResponseData resData = httpSender.send(cloneHttpReqImpl.getUrl(), intMethod, cloneHttpReqImpl.getReqHeader(), postBody);
 	                    if(resData == null){
 	                        continue;
 	                    }

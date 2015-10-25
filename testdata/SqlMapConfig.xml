@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE sqlMapConfig 
-    PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" 
-    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
 
-<sqlMapConfig>
-    <!--<settings cacheModelsEnabled="true" enhancementEnabled="true"
-        lazyLoadingEnabled="true" errorTracingEnabled="true" maxRequests="32"
-        maxSessions="10" maxTransactions="5" useStatementNamespaces="false" />-->
-
-    <transactionManager type="JDBC" commitRequired="false">
-        <dataSource type="SIMPLE">
-            <!-- JDBC连接需要的配置 -->
-            <property name="JDBC.Driver" value="com.mysql.jdbc.Driver" />
-            <property name="JDBC.ConnectionURL"
-                value="jdbc:mysql://127.0.0.1/scan" />
-            <property name="JDBC.Username" value="root" />
-            <property name="JDBC.Password" value="135" />
-        </dataSource>
-    </transactionManager>
-
-    <!-- 映射文件 -->
-    <sqlMap resource="com/bibibiradio/input/plugin/database/sqlmapscanner.xml" />
-</sqlMapConfig>
+<configuration>
+    <typeAliases>
+        <typeAlias alias="MysqlScanItem" type="com.bibibiradio.input.plugin.database.MysqlScanItem" />
+        <typeAlias alias="string" type="java.lang.String" />
+        <typeAlias alias="integer" type="java.lang.Integer" />
+        <typeAlias alias="long" type="java.lang.Long" />
+        <typeAlias alias="Map" type="java.util.Map" />
+    </typeAliases>
+    
+    <environments default="development">
+        <environment id="development">
+        <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+		        <!--  <property name="driver" value="com.mysql.jdbc.Driver" />  
+		        <property name="url" value="jdbc:mysql://127.0.0.1:3306/networkresourcesort?characterEncoding=utf8" />-->
+		        <property name="driver" value="org.sqlite.JDBC" />  
+		        <property name="url" value="jdbc:sqlite:E:/scan" />
+		        <!--  <property name="username" value="resource_owner" />  
+		        <property name="password" value="123456" /> -->
+            </dataSource>
+        </environment>
+    </environments>
+    
+    <mappers>
+        <mapper resource="sqlmap/sqlmapscanner.xml"/>
+    </mappers> 
+</configuration>

@@ -1,5 +1,6 @@
 package com.bibibiradio.scan.common;
 
+import java.io.Serializable;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -7,8 +8,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class HttpParams {
-    private Map<String,String> keyValues;
+public class HttpParams implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Map<String,String> keyValues;
     private String params;
     private String keyValuesConnector;
     private String itemConnector;

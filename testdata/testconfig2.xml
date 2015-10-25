@@ -14,5 +14,11 @@
         <scanPlugin>
             <name>xss</name>
         </scanPlugin>
+        <scanPlugin>
+            <name>cc</name>
+        </scanPlugin>
+        <scanPlugin>
+            <name>headerInject</name>
+        </scanPlugin>
     </scanPlugins>
 </config>

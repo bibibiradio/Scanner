@@ -2,18 +2,20 @@ package com.bibibiradio.input.plugin.database;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
 import com.bibibiradio.input.plugin.IInputData;
 import com.bibibiradio.input.plugin.IInputDataSource;
-import com.ibatis.sqlmap.client.SqlMapClient;
-import com.ibatis.sqlmap.client.SqlMapClientBuilder;
+
 
 public class MysqlDataSource implements IInputDataSource {
 	private String dbConfigPath = null;
-	private static SqlMapClient smc=null;
+	private static SqlSessionFactory sqlSessionFactory;
 	private static long maxItemId = -1;
 	private static long currentItemId = 0;
 	@Override
@@ -29,9 +31,8 @@ public class MysqlDataSource implements IInputDataSource {
 			return false;
 		}
 		
-		com.ibatis.common.resources.Resources.setDefaultClassLoader(getClass().getClassLoader());
 		try {
-			smc = SqlMapClientBuilder.buildSqlMapClient(new FileInputStream(dbConfigPath));
+			sqlSessionFactory =  new SqlSessionFactoryBuilder().build(new FileInputStream(dbConfigPath));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,70 +94,51 @@ public class MysqlDataSource implements IInputDataSource {
 	}
 	
 	private long getMaxItemId(){
+		
+		SqlSession session = sqlSessionFactory.openSession();
+		
 		MysqlScanItem resultItem = null;
 		MysqlScanItem selectItem = new MysqlScanItem();
 		selectItem.setItemId(0);
-		try {
-			startTransaction();
-			resultItem = (MysqlScanItem) smc.queryForObject("getMaxItemId", selectItem);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally{
-			endTransaction();
-		}
-		return resultItem.getItemId();
+        
+	    try {
+	    	resultItem = (MysqlScanItem) session.selectOne("com.bibibiradio.input.plugin.database。MysqlDataSource.getMaxItemId", selectItem);
+	    } finally {
+	    	session.commit();
+	        session.close();
+	    }
+	        
+	   return resultItem.getItemId();
 	}
 	
 	private List<MysqlScanItem> getScanItems(long currentItemId){
+		SqlSession session = sqlSessionFactory.openSession();
+		
 		MysqlScanItem selectItem = new MysqlScanItem();
 		selectItem.setItemId(currentItemId);
+		
 		try {
-			startTransaction();
-			 return smc.queryForList("getScanItems", selectItem);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		} finally{
-			endTransaction();
-		}
+	    	return session.selectList("com.bibibiradio.input.plugin.database。MysqlDataSource.getScanItems", selectItem);
+	    } finally {
+	    	session.commit();
+	        session.close();
+	    }
 	}
 	
 	private boolean setIsScan(long itemId){
+		SqlSession session = sqlSessionFactory.openSession();
+		
 		MysqlScanItem selectItem = new MysqlScanItem();
 		selectItem.setItemId(itemId);
+		
 		try {
-			startTransaction();
-			 smc.update("updateIsScan", selectItem);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		} finally{
-			endTransaction();
-		}
+	    	session.update("com.bibibiradio.input.plugin.database。MysqlDataSource.updateIsScan", itemId);
+	    } finally {
+	    	session.commit();
+	        session.close();
+	    }
 		
 		return true;
-	}
-	
-	private void endTransaction(){
-		try {
-			smc.commitTransaction();
-			smc.endTransaction();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	private void startTransaction(){
-		try {
-			smc.startTransaction();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 }

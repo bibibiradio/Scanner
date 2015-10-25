@@ -25,9 +25,9 @@
 		<version>1.7.2</version>
 	</dependency>
 	<dependency>
-        <groupId>org.apache.ibatis</groupId>
-        <artifactId>ibatis-sqlmap</artifactId>
-        <version>2.3.4.726</version>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis</artifactId>
+        <version>3.2.8</version>
     </dependency>
     <dependency>
    	    <groupId>mysql</groupId>
@@ -43,6 +43,11 @@
 		<groupId>com.bibibiradio.commoncache</groupId>
 		<artifactId>commoncache</artifactId>
 		<version>1.2</version>
+	</dependency>
+	<dependency>
+		<groupId>org.xerial</groupId>
+		<artifactId>sqlite-jdbc</artifactId>
+		<version>3.7.2</version>
 	</dependency>
     <!--<dependency>
         <groupId>net.sf.qtjambi</groupId>
@@ -68,7 +73,7 @@
   <build>
   	<resources>  
             <resource>  
-                <directory>src/main/java</directory>  
+                <directory>src/main/resources</directory>  
                 <includes>  
                     <include>**/*.properties</include>  
                     <include>**/*.xml</include>  
@@ -77,7 +82,7 @@
                 </includes>  
             </resource>  
             <resource>  
-                <directory>src/test/java</directory>  
+                <directory>src/test/resources</directory>  
                 <includes>  
                     <include>**/*.properties</include>  
                     <include>**/*.xml</include>  

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bibibiradio.input.plugin.database。MysqlDataSource">
+    <select id="getScanItemByHash" resultType="MysqlScanItem" parameterType="MysqlScanItem"><![CDATA[
+        SELECT 
+        item_id,url,method,request_content_type,response_status_code,insert_scan_time,item_hash,
+        request_orig,response_orig,scan_time,is_scan
+        FROM scan_items 
+        WHERE item_hash=#{itemHash}
+    ]]></select>
+    
+    <select id="getScanItems" resultType="MysqlScanItem" parameterType="MysqlScanItem"><![CDATA[
+        SELECT 
+        item_id as itemId,url,method,request_content_type as requestContentType,response_status_code as responseStatusCode,insert_scan_time as insertScanTime,item_hash as itemHash,
+        request_orig as requestOrig,response_orig as responseOrig,scan_time as scanTime,is_scan as isScan
+        FROM scan_items 
+        WHERE item_id > #{itemId} and is_scan=0 limit 20
+    ]]></select>
+    
+    <select id="getMaxItemId" resultType="MysqlScanItem" parameterType="MysqlScanItem"><![CDATA[
+        SELECT 
+        item_id as itemId,url,method,request_content_type as requestContentType,response_status_code as responseStatusCode,insert_scan_time as insertScanTime,item_hash as itemHash,
+        request_orig as requestOrig,response_orig as responseOrig,scan_time as scanTime,is_scan as isScan
+        FROM scan_items 
+        order by item_id desc limit 1
+    ]]></select>
+    
+    <insert id="insertScanItem" parameterType="MysqlScanItem"><![CDATA[
+        INSERT INTO scan_items 
+        (url,method,request_content_type,response_status_code,insert_scan_time,item_hash,request_orig,response_orig) 
+        VALUES 
+        (#{url},#{method},#{requestContentType},#{responseStatusCode},#{insertScanTime},#{itemHash},#{requestOrig},#{responseOrig})
+    ]]></insert>
+    
+    <update id="updateIsScan" parameterType="MysqlScanItem"><![CDATA[
+        update scan_items set is_scan=1 where item_id=#{itemId}
+    ]]></update>
+    
+    <delete id="deleteScanItems"><![CDATA[
+        DELETE FROM scan_items WHERE 1=1
+    ]]></delete>
+</mapper>

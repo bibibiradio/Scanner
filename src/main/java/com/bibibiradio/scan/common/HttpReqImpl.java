@@ -36,20 +36,16 @@ public class HttpReqImpl implements IHttpReq,Serializable {
         cookieParams = new HttpParams();
     }
     
-    public HttpReqImpl deepClone(){
+    public HttpReqImpl deepClone() throws Exception{
         
-        try{
-            ByteArrayOutputStream bo=new ByteArrayOutputStream(); 
-            ObjectOutputStream oo=new ObjectOutputStream(bo); 
-            oo.writeObject(this); 
+        ByteArrayOutputStream bo=new ByteArrayOutputStream(); 
+        ObjectOutputStream oo=new ObjectOutputStream(bo); 
+        oo.writeObject(this); 
             
-            ByteArrayInputStream bi=new ByteArrayInputStream(bo.toByteArray()); 
-            ObjectInputStream oi=new ObjectInputStream(bi); 
-            return (HttpReqImpl)(oi.readObject());
-        }catch(Exception ex){
-            return null;
-        }
-         
+        ByteArrayInputStream bi=new ByteArrayInputStream(bo.toByteArray()); 
+        ObjectInputStream oi=new ObjectInputStream(bi); 
+        return (HttpReqImpl)(oi.readObject());
+       
     }
     
     public boolean setUrlSyn(String url) throws Exception{
@@ -62,6 +58,9 @@ public class HttpReqImpl implements IHttpReq,Serializable {
     }
     
     public boolean setPostBodySyn(String postBody) throws Exception{
+    	if(postBody == null){
+    		return false;
+    	}
         this.postBody = postBody;
         postParams.setParams(postBody);
         postParams.synFromParams();
@@ -69,6 +68,9 @@ public class HttpReqImpl implements IHttpReq,Serializable {
     }
     
     public boolean setReqHeaderSyn(Map<String,String> reqHeader) throws Exception{
+    	if(reqHeader == null){
+    		return false;
+    	}
         this.reqHeader = reqHeader;
         cookie = reqHeader.get("Cookie");
         cookieParams.setItemConnector(";");

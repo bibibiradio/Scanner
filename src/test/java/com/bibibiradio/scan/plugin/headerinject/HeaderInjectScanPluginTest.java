@@ -28,14 +28,14 @@ public class HeaderInjectScanPluginTest {
     public void test() {
         XlBurpProxyInputData ipd = new XlBurpProxyInputData();
         ipd.setMethod("GET");
-        ipd.setUrl("http://www.test.checkhtml.com/id_card_sensitive");
+        ipd.setUrl("http://www.test.checkhtml.com/header_inject_yes?param=123");
         IVulnItem[] vulnItems = ssp.scan(ipd);
+        
+        assertTrue(vulnItems != null);
         
         for(int i=0;i<vulnItems.length;i++){
             System.out.println(vulnItems[i].getPos()+" "+vulnItems[i].getDetail());
         }
-        
-        assertTrue(vulnItems!=null);
     }
 
 }
