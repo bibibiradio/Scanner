@@ -1,0 +1,13 @@
+<html>
+	<head>
+		<meta charset="utf-8" />
+    	<title>check xss in content</title>
+	</head>
+	<body>
+		<img src=1></img>
+		<script>
+			var a="http://123456<%- xss_param %>";
+		</script>
+		<iframe src=1 />
+	</body>
+</html>

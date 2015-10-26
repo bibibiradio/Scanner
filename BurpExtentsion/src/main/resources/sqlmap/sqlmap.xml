@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bibibiradio.burp.httpproxy.dbinsert.ScanItem">
+    
+    <select id="getScanItemByHash" resultType="ScanItem" parameterType="ScanItem"><![CDATA[
+        SELECT 
+        item_id,url,method,request_content_type,response_status_code,insert_scan_time,item_hash,
+        request_orig,response_orig,scan_time,is_scan
+        FROM scan_items 
+        WHERE item_hash=#{itemHash}
+    ]]></select>
+    
+
+    <insert id="insertScanItem" parameterType="ScanItem"><![CDATA[
+        INSERT INTO scan_items 
+        (url,method,request_content_type,response_status_code,insert_scan_time,item_hash,request_orig,response_orig) 
+        VALUES 
+        (#{url},#{method},#{requestContentType},#{responseStatusCode},#{insertScanTime},#{itemHash},#{requestOrig},#{responseOrig})
+    ]]></insert>
+    
+    <delete id="deleteScanItems">  
+        <![CDATA[ 
+           DELETE FROM scan_items WHERE 1=1
+        ]]>  
+    </delete>
+</mapper>
