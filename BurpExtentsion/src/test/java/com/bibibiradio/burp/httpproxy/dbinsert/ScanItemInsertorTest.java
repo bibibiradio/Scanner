@@ -20,7 +20,7 @@ public class ScanItemInsertorTest {
 
 	@Test
 	public void test() {
-		ScanItemInsertor in = new ScanItemInsertor("file:e:/SqlMapConfig.xml");
+		ScanItemInsertor in = new ScanItemInsertor("/Users/xiaoleixl/projects/java/Scanner/BurpExtentsion/src/main/resources/SqlMapConfig.xml");
 		
 		in.deleteAll();
 		

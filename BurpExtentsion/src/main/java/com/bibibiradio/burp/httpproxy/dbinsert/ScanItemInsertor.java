@@ -1,5 +1,6 @@
 package com.bibibiradio.burp.httpproxy.dbinsert;
 
+import java.io.FileInputStream;
 import java.io.Reader;
 
 import org.apache.ibatis.session.SqlSession;
@@ -18,10 +19,11 @@ public class ScanItemInsertor {
 			
 			if(sqlSessionFactory==null){
 				//com.ibatis.common.resources.Resources.setDefaultClassLoader(getClass().getClassLoader());
-				reader = Resources.getUrlAsReader(sqlMapConfigPath);
+				//reader = Resources.getUrlAsReader(sqlMapConfigPath);
+				FileInputStream configInput = new FileInputStream(sqlMapConfigPath);
 				//reader = getClass().getClassLoader().getResourceAsStream(ScanItemInsertor.sqlMapConfigPath);
-				if(reader != null){
-					sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+				if(configInput != null){
+					sqlSessionFactory = new SqlSessionFactoryBuilder().build(configInput);
 				}
 			}
 		}catch(Exception ex){
