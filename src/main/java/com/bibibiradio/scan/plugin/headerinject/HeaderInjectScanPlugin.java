@@ -42,7 +42,7 @@ public class HeaderInjectScanPlugin implements IScanPlugin {
 			httpSender.setSendFreq(1500);
 			httpSender.setTimeout(10000);
 			httpSender.setSoTimeout(20000);
-			//httpSender.setHttpProxy("127.0.0.1", 8080);
+			httpSender.setHttpProxy("127.0.0.1", 8080);
 			httpSender.start();
 		}
 		return true;

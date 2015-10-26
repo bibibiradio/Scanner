@@ -67,7 +67,7 @@ public class HttpParams implements Serializable{
             
             String encoderValue = null;
             if(valueDecoder.equals("URL")){
-                encoderValue = URLEncoder.encode(entry.getValue(), charDecoder);
+                encoderValue = URLEncoder.encode(entry.getValue(), charDecoder).replaceAll("\\+", "%20");
             }else{
                 encoderValue = entry.getValue();
             }

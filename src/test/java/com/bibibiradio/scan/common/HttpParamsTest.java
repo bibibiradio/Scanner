@@ -22,7 +22,7 @@ public class HttpParamsTest {
 
     @Test
     public void test() {
-        String testString = "name=xl&pwd=123456";
+        String testString = "name=xl&pwd=1234%2056";
         HttpParams httpParams = new HttpParams();
         try{
             assertTrue(!httpParams.syn());
@@ -31,7 +31,7 @@ public class HttpParamsTest {
             assertTrue(httpParams.syn());
             Map<String,String> kvs = httpParams.getKeyValues();
             assertTrue(kvs.size() == 2);
-            assertTrue(kvs.get("name").equals("xl") && kvs.get("pwd").equals("123456"));
+            assertTrue(kvs.get("name").equals("xl") && kvs.get("pwd").equals("1234 56"));
             
             httpParams = new HttpParams();
             httpParams.setKeyValues(kvs);

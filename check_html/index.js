@@ -78,6 +78,16 @@ app.get("/header_inject_yes",function(req,res){
 	res.end(req.param("param"));
 });
 
+app.get("/urljump_yes",function(req,res){
+	//var resData=templateViewer.render("./xss_in_href_have_escape_template.ejs",{"xss_param":req.param("param")});
+	var param = req.param("param");
+	if(param != null){
+		res.setHeader("location",req.param("param"));
+		res.writeHeader(301);
+	}
+	res.end(req.param("param"));
+});
+
 app.get("/id_card_sensitive",function(req,res){
 	var resData=templateViewer.render("./sensitive_test_data.html");
 	return res.end(resData);
