@@ -36,7 +36,7 @@ public class RequestResponsePair {
 	private IBurpExtenderCallbacks callback = null;
 	
 	static{
-		scanItemInsertor= new ScanItemInsertor("file:e:/SqlMapConfig.xml");
+		scanItemInsertor= new ScanItemInsertor("/Users/xiaoleixl/SqlMapConfig.xml");
 		hashGenerator = Sha256HashGenerator.getHashGenerator();
 		scanItemCache = new CacheWithTimeLimit();
 		scanItemCache.setTimeLimit(1000000);

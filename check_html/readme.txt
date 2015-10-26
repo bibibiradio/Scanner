@@ -1,0 +1,1 @@
+hosts www.test.checkhtml.com设置为127.0.0.1
