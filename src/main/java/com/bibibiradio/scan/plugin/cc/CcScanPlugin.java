@@ -1,7 +1,5 @@
 package com.bibibiradio.scan.plugin.cc;
 
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +31,7 @@ public class CcScanPlugin implements IScanPlugin {
 			httpSender.setSendFreq(1500);
 			httpSender.setTimeout(10000);
 			httpSender.setSoTimeout(20000);
+			httpSender.setAutoRedirect(false);
 			httpSender.start();
 		}
 		
@@ -69,11 +68,14 @@ public class CcScanPlugin implements IScanPlugin {
 		}
 		
 		realTime = realTime2[0];
-		networkGetDataTime = realTime2[1]/((double)brand)+(realTime2[1]/1500+1)*connectTime*2;
+		networkGetDataTime = realTime2[1]/((double)brand);
+		//networkGetDataTime = realTime2[1]/((double)brand)+(realTime2[1]/1500+1)*connectTime*2;
 		
-		serverExecuteTime = realTime - 6*connectTime - networkGetDataTime;
+		//serverExecuteTime = realTime - 6*connectTime - networkGetDataTime;
+		serverExecuteTime = realTime - connectTime - networkGetDataTime;
 		
-		detail = "et:"+serverExecuteTime+" ct:"+connectTime*6+" rt:"+realTime+" nt:"+networkGetDataTime;
+		//detail = "et:"+serverExecuteTime+" ct:"+connectTime*6+" rt:"+realTime+" nt:"+networkGetDataTime;
+		detail = "et:"+serverExecuteTime+" ct:"+connectTime+" rt:"+realTime+" nt:"+networkGetDataTime;
 		//System.out.println(detail);
 		//System.out.println("et:"+serverExecuteTime+" ct:"+connectTime*6+" rt:"+realTime+" nt:"+networkGetDataTime+" url:"+inputData.getUrl());
 		
@@ -104,12 +106,7 @@ public class CcScanPlugin implements IScanPlugin {
 	}
 	
 	private long getConnectTime(String url){
-		Process pingProcess = null;
-		InputStream pingInput = null;
-		byte[] pingInputBytes = null;
-		String pingInputString = null;
 		URL uurl = null;
-		long baseMs = -1;
 		Long cacheBaseMs = null;
 		
 		hostCache.removeCheckPointExecute();
@@ -121,24 +118,22 @@ public class CcScanPlugin implements IScanPlugin {
 				return cacheBaseMs.longValue();
 			}
 			
-			String cmd = "ping "+uurl.getHost();
-			//System.out.println(cmd);
-			pingProcess = Runtime.getRuntime().exec(cmd);
-			pingInput = pingProcess.getInputStream();
-			pingInputBytes = new byte[2048];
-			pingProcess.waitFor();
-			pingInput.read(pingInputBytes);
+			String testUrl = uurl.getProtocol()+"://"+uurl.getHost();
+			
+			long startTime = System.currentTimeMillis();
+			httpSender.send(testUrl, 0, null, null);
+			long endTime = System.currentTimeMillis();
+			
+			if(endTime <= startTime){
+	            return -1;
+	        }
+			
+			return endTime - startTime;
 		} catch (Exception ex) {
 			// TODO Auto-generated catch block
 		    logger.error("error message",ex);
 			return -1;
 		}
-		pingInputString = new String(pingInputBytes);
-		cacheBaseMs = Long.valueOf(pingInputString.substring(pingInputString.lastIndexOf("=")+1, pingInputString.lastIndexOf("ms")).trim());
-		hostCache.inputData(uurl.getHost(), cacheBaseMs);
-		baseMs = cacheBaseMs.longValue();
-		//System.out.println(baseMs);
-		return baseMs;
 	}
 	
 	private long[] getRealTime(IInputData inputData){

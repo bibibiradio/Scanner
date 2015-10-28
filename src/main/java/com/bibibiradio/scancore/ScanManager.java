@@ -17,6 +17,7 @@ import com.bibibiradio.scan.plugin.IVulnItem;
 import com.bibibiradio.scan.plugin.cc.CcScanPlugin;
 import com.bibibiradio.scan.plugin.headerinject.HeaderInjectScanPlugin;
 import com.bibibiradio.scan.plugin.sensitive.SensitiveScanPlugin;
+import com.bibibiradio.scan.plugin.urljump.UrlJumpScanPlugin;
 
 public class ScanManager {
 	static private Logger logger = Logger.getLogger(ScanManager.class);
@@ -97,6 +98,11 @@ public class ScanManager {
                 headerInjectScanPlugin.open("");
                 
                 scanPlugins.add(headerInjectScanPlugin);
+            }else if(scanPluginConfig.get("name").equals("urlJump")){
+                IScanPlugin urlJumpScanPlugin = new UrlJumpScanPlugin();
+                urlJumpScanPlugin.open("");
+                
+                scanPlugins.add(urlJumpScanPlugin);
             }
 		}
 		return true;

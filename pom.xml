@@ -51,16 +51,16 @@
 	</dependency>
     <!--<dependency>
         <groupId>net.sf.qtjambi</groupId>
-        <artifactId>qtjambi</artifactId>
+        <artifactId>qtjambi-base-mac32</artifactId>
         <version>4.6.3</version>
     </dependency>-->
   </dependencies>
   
-  <!--<repositories>
+  <repositories>
     <repository>
         <id>qtjambi</id>
         <name>qtjambi</name>
-        <url>http://qtjambi.sourceforge.net/maven2/</url>
+        <url>http://repository.qt-jambi.org/nexus/content/groups/public/</url>
         <releases>
             <checksumPolicy>ignore</checksumPolicy>
         </releases>
@@ -68,7 +68,7 @@
             <checksumPolicy>ignore</checksumPolicy>
         </snapshots>
     </repository>
-  </repositories>-->
+  </repositories>
   
   <build>
   	<resources>  

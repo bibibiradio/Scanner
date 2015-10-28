@@ -63,7 +63,7 @@ public class HttpPackageRecordor {
 		
 		if(rPPair != null && messageIsRequest == false){
 			if(httpRP.getResponse().length >= 2000000){
-				rPPair.setResponse("NULL".getBytes());
+				rPPair.setResponse(null);
 			}else{
 				rPPair.setResponse(httpRP.getResponse());
 			}
