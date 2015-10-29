@@ -98,7 +98,8 @@ public class HttpParams implements Serializable{
             String[] keyValue = item.split(keyValuesConnector);
             
             if(keyValue.length < 2){
-            	return null;
+                result.put(keyValue[0], "");
+            	continue;
             }
             
             String decoderValue = null;

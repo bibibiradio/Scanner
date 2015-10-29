@@ -18,7 +18,7 @@
 		        <!--  <property name="driver" value="com.mysql.jdbc.Driver" />  
 		        <property name="url" value="jdbc:mysql://127.0.0.1:3306/networkresourcesort?characterEncoding=utf8" />-->
 		        <property name="driver" value="org.sqlite.JDBC" />  
-		        <property name="url" value="jdbc:sqlite:E:/scan" />
+		        <property name="url" value="jdbc:sqlite:/Users/xiaoleixl/scan" />
 		        <!--  <property name="username" value="resource_owner" />  
 		        <property name="password" value="123456" /> -->
             </dataSource>

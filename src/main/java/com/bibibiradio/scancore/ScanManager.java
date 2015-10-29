@@ -33,7 +33,7 @@ public class ScanManager {
 	public static void run(String[] args){
 		String configPath = args[0];
 		Map<String,Object> config = ConfigReader.formatConfig(configPath);
-		config.put("cmdLine", args);
+		//config.put("cmdLine", args);
 		
 		if(!initInputPlugin(config)){
 			return;
@@ -127,6 +127,7 @@ public class ScanManager {
 				IInputData inputData = inputDatas[i];
 				
 				//System.out.println("����ɨ���"+i+"��ɨ��url "+inputData.getUrl());
+				System.out.println("url:"+inputData.getUrl());
 				for(IScanPlugin scanPlugin:scanPlugins){
 				    IVulnItem[] scanVulnItems = null;
 				    
